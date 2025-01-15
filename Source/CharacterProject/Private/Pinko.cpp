@@ -3,7 +3,9 @@
 
 #include "Pinko.h"
 
+#include "DropperGameInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -26,6 +28,17 @@ void APinko::BeginPlay()
 {
 	Super::BeginPlay();
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	UGameInstance* Istance = UGameplayStatics::GetGameInstance(GetWorld());
+	UDropperGameInstance* DropperInstance = Cast<UDropperGameInstance>(Istance);
+
+	if (DropperInstance)
+	{
+		DropperInstance->MaxDepth = FMath::RandRange(0.0f, 1000.0f);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
+	}
 	
 }
 
@@ -74,3 +87,17 @@ void APinko::SetLookInput(const FVector2D& LookInput)
 	AddControllerYawInput(LookInput.X);
 }
 
+/////////////////////////////////////////////////////////////////////////////
+void APinko::DisplayCoins()
+{
+	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();
+	if (DropperInstance)
+	{
+		int TotalCoins = DropperInstance->CoinScore;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("Total Coins: {0}"), {TotalCoins}));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
+	}
+}

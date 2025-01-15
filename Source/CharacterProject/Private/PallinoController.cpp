@@ -3,6 +3,8 @@
 
 #include "PallinoController.h"
 
+#include "InputMap.h"
+
 
 void APallinoController::SetupInputComponent()
 {
@@ -14,19 +16,25 @@ void APallinoController::SetupInputComponent()
 
 	Subsystem->ClearAllMappings();
 
-	Subsystem->AddMappingContext(DefaultMappingContext, 0);
+	if (!InputMap)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("CHECK IN THE CONTROLLER IF YOU SELECTED THE INPUT MAP!"));
+		return;
+	}
+
+	Subsystem->AddMappingContext(InputMap->Context, 0);
 
 	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
 
-	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &APallinoController::Jump);
+	EnhancedInputComponent->BindAction(InputMap->Actions["Jump"], ETriggerEvent::Started, this, &APallinoController::Jump);
 
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APallinoController::Move);
+	EnhancedInputComponent->BindAction(InputMap->Actions["Move"], ETriggerEvent::Triggered, this, &APallinoController::Move);
 
-	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APallinoController::Look);
+	EnhancedInputComponent->BindAction(InputMap->Actions["Look"], ETriggerEvent::Triggered, this, &APallinoController::Look);
 
-	EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &APallinoController::StartSprint);
+	EnhancedInputComponent->BindAction(InputMap->Actions["Sprint"], ETriggerEvent::Started, this, &APallinoController::StartSprint);
 
-	EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &APallinoController::StopSprint);
+	EnhancedInputComponent->BindAction(InputMap->Actions["Sprint"], ETriggerEvent::Completed, this, &APallinoController::StopSprint);
 }
 
 void APallinoController::OnPossess(APawn* InPawn)
