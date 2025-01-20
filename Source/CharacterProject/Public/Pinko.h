@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Inventory.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -18,6 +19,8 @@ public:
 	APinko();
 
 protected:
+	UPROPERTY(VisibleAnywhere)
+	int ItemIndex;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float WalkSpeed = 500.0f;
@@ -36,6 +39,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	USpringArmComponent* SpringArm;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UInventory* Inventory;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -61,7 +67,11 @@ public:
 	UFUNCTION()
 	void SetLookInput(const FVector2D& LookInput);
 
+	UFUNCTION()
+	void SelectItem(bool nextItem);
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
+

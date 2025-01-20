@@ -21,6 +21,8 @@ APinko::APinko()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+
+	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
 }
 
 // Called when the game starts or when spawned
@@ -100,4 +102,18 @@ void APinko::DisplayCoins()
 	{
 		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
 	}
+}
+
+inline void APinko::SelectItem(bool nextItem)
+{
+	if (nextItem && ItemIndex < Inventory->Items.Num() - 1)
+	{
+		ItemIndex++;
+	}
+	else if (!nextItem && Inventory->Items.Num() > 0)
+	{
+		ItemIndex--;
+	}
+
+	Inventory->DropItem(ItemIndex, 1, GetActorLocation());
 }

@@ -35,6 +35,8 @@ void APallinoController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(InputMap->Actions["Sprint"], ETriggerEvent::Started, this, &APallinoController::StartSprint);
 
 	EnhancedInputComponent->BindAction(InputMap->Actions["Sprint"], ETriggerEvent::Completed, this, &APallinoController::StopSprint);
+
+	EnhancedInputComponent->BindAction(InputMap->Actions["SelectItem"], ETriggerEvent::Started, this, &APallinoController::SelectInput);
 }
 
 void APallinoController::OnPossess(APawn* InPawn)
@@ -66,4 +68,9 @@ void APallinoController::Look(const FInputActionValue& Value)
 void APallinoController::Jump(const FInputActionValue& Value)
 {
 	Pinko->JumpyDumpty();
+}
+
+void APallinoController::SelectInput(const FInputActionValue& Value)
+{
+	Pinko->SelectItem(true);
 }

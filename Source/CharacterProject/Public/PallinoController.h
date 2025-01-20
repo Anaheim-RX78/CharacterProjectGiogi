@@ -46,5 +46,8 @@ protected:
 
 	UFUNCTION()
 	void Jump(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void SelectInput(const FInputActionValue& Value);
 	
 };
