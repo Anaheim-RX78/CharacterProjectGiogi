@@ -3,9 +3,7 @@
 
 #include "Pinko.h"
 
-#include "DropperGameInstance.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Kismet/GameplayStatics.h"
+
 
 
 // Sets default values
@@ -23,6 +21,9 @@ APinko::APinko()
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
+
+	Interactor = CreateDefaultSubobject<UInteractor>(TEXT("InteractorComponent"));
+	Interactor->SetupAttachment(Camera, USpringArmComponent::SocketName);
 }
 
 // Called when the game starts or when spawned
@@ -116,4 +117,9 @@ inline void APinko::SelectItem(bool nextItem)
 	}
 
 	Inventory->DropItem(ItemIndex, 1, GetActorLocation());
+}
+
+void APinko::Interact()
+{
+	Interactor->Interact();
 }

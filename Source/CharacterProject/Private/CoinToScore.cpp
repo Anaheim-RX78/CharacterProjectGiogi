@@ -5,6 +5,24 @@
 
 #include "Pinko.h"
 
+void ACoinToScore::OnInteract(FInteractorPayload Payload)
+{
+	
+	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();
+	if (DropperInstance)
+	{
+		UInventory* Inventory = Cast<APinko>(Payload.Interactor)->Inventory;
+		Inventory->AddItem(this, CoinValue);
+		DropperInstance->CoinScore = DropperInstance->CoinScore + CoinValue;
+		Cast<APinko>(Payload.Interactor)->DisplayCoins();
+		Destroy();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
+	}
+}
+
 // Sets default values
 ACoinToScore::ACoinToScore()
 {
@@ -13,7 +31,10 @@ ACoinToScore::ACoinToScore()
 
 	capsule = CreateDefaultSubobject<UCapsuleComponent>("Capsule");
 	capsule->SetupAttachment(GetRootComponent());
-	capsule->OnComponentBeginOverlap.AddDynamic(this, &ACoinToScore::OnOverlapped);
+
+	interactable = CreateDefaultSubobject<UInteractable>("Interactable");
+
+	interactable->OnInteract.AddDynamic(this, &ACoinToScore::OnInteract);
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,21 +48,7 @@ void ACoinToScore::BeginPlay()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void ACoinToScore::OnOverlapped(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();
-	if (DropperInstance)
-	{
-		DropperInstance->CoinScore = DropperInstance->CoinScore + CoinValue;
-		Cast<APinko>(OtherActor)->DisplayCoins();
-		Destroy();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
-	}
-}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 

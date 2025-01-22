@@ -72,5 +72,5 @@ void APallinoController::Jump(const FInputActionValue& Value)
 
 void APallinoController::SelectInput(const FInputActionValue& Value)
 {
-	Pinko->SelectItem(true);
+	Pinko->Interact();
 }

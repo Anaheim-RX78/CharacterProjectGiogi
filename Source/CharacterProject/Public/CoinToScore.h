@@ -4,19 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "DropperGameInstance.h"
+#include "Interactable.h"
+#include "InventoryItemActor.h"
 #include "GameFramework/Actor.h"
 #include "Components/CapsuleComponent.h"
 #include "CoinToScore.generated.h"
 
 UCLASS()
-class CHARACTERPROJECT_API ACoinToScore : public AActor
+class CHARACTERPROJECT_API ACoinToScore : public AInventoryItemActor
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
-	UCapsuleComponent* capsule;	
+	UCapsuleComponent* capsule;
+
+	UPROPERTY(EditAnywhere)
+	UInteractable* interactable;
 	
 public:
+	UFUNCTION()
+	void OnInteract(FInteractorPayload Payload);
 	
 	// Sets default values for this actor's properties
 	ACoinToScore();
@@ -29,9 +36,6 @@ protected:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	void OnOverlapped(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 public:	
 	// Called every frame

@@ -5,6 +5,10 @@
 #include "CoreMinimal.h"
 #include "Inventory.h"
 #include "GameFramework/Character.h"
+#include "DropperGameInstance.h"
+#include "Interactor.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Pinko.generated.h"
@@ -40,16 +44,21 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	USpringArmComponent* SpringArm;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-	UInventory* Inventory;
+	UPROPERTY(EditAnywhere, Category = "Interact")
+	UInteractor* Interactor;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
+	
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UInventory* Inventory;
+
+	UInteractor* GetInteractorComponent() const { return Interactor; }
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 
 	UFUNCTION()
 	void DisplayCoins();
@@ -69,6 +78,9 @@ public:
 
 	UFUNCTION()
 	void SelectItem(bool nextItem);
+
+	UFUNCTION()
+	void Interact();
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
