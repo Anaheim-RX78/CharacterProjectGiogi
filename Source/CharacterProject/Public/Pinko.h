@@ -28,7 +28,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	int ItemIndex;
 
-	UPROPERTY(EditAnywhere, Category = Ability)
+	UPROPERTY(VisibleAnywhere, Category = Ability)
 	UAbilityComponent* Abilities;
 
 	

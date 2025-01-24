@@ -3,6 +3,7 @@
 
 #include "AbilityComponent.h"
 
+#include "AbilityData.h"
 #include "Pinko.h"
 
 
@@ -35,7 +36,7 @@ void UAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// ...
 }
 
-void UAbilityComponent::SetFirstSlot(AAbility* Ability)
+void UAbilityComponent::SetFirstSlot(UAbilityData* Ability)
 {
 	if (Ability != nullptr)
 	{
@@ -43,7 +44,7 @@ void UAbilityComponent::SetFirstSlot(AAbility* Ability)
 	}
 }
 
-void UAbilityComponent::SetSecondSlot(AAbility* Ability)
+void UAbilityComponent::SetSecondSlot(UAbilityData* Ability)
 {
 	if (Ability != nullptr)
 	{
@@ -53,22 +54,27 @@ void UAbilityComponent::SetSecondSlot(AAbility* Ability)
 
 void UAbilityComponent::AddRandomAbility()
 {
-	if (FirstSlot != nullptr)
+	UAbilityData* Ability = GetRandomAbility();
+	
+	if (!FirstSlot)
 	{
-		SetFirstSlot(GetRandomAbility());
+		SetFirstSlot(Ability);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("FirstSlot: {0}"), {Ability->GetName()}));
 	}
-	else if (SecondSlot != nullptr)
+	else if (!SecondSlot)
 	{
-		SetSecondSlot(GetRandomAbility());
+		SetSecondSlot(Ability);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("SecondSlot: {0}"), {Ability->GetName()}));
+
 	}
 }
 
-AAbility* UAbilityComponent::GetRandomAbility()
+UAbilityData* UAbilityComponent::GetRandomAbility()
 {
 	if (Abilities.Num() != 0)
 	{
 		int Index = UKismetMathLibrary::RandomIntegerInRange(0, Abilities.Num() - 1);
-		return Abilities[Index];	
+		return Abilities[Index];
 	}
 
 	return nullptr;
@@ -78,7 +84,7 @@ void UAbilityComponent::SwitchSlots()
 {
 	if (FirstSlot != nullptr && SecondSlot != nullptr)
 	{
-		AAbility* Ability = FirstSlot;
+		UAbilityData* Ability = FirstSlot;
 		FirstSlot = SecondSlot;
 		SecondSlot = Ability;
 	}
@@ -86,7 +92,7 @@ void UAbilityComponent::SwitchSlots()
 
 void UAbilityComponent::UseAbility()
 {
-	//GetWorld()->SpawnActor<AAbility>(FirstSlot, FVector<> = 0, FRotator::ZeroRotator)->OwnerCharacter = GetOwner();
+	//GetWorld()->SpawnActor<AAbility>(FirstSlot->Ability, FVector<> = 0, FRotator::ZeroRotator)->OwnerCharacter = GetOwner();
 	SwitchSlots();
 	SecondSlot = nullptr;
 }

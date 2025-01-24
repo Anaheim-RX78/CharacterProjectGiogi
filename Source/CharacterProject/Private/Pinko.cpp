@@ -98,7 +98,7 @@ void APinko::JumpyDumpty()
 void APinko::SetMovementInput(const FVector2D& MovementInput)
 {
 	AddMovementInput(Camera->GetRightVector(), MovementInput.X);
-	AddMovementInput(Camera->GetForwardVector(), MovementInput.Y);
+	AddMovementInput(Camera->GetForwardVector() - GetActorForwardVector()  * (MovementInput.Y * -1), MovementInput.Y);
 }
 
 // Sprint Changing the Walk Speed Of The Movement Component

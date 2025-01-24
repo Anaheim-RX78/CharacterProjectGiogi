@@ -18,6 +18,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	ACharacter* OwnerCharacter;
 
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	class UAbilityData* AbilityData;
+
 	
 protected:
 	

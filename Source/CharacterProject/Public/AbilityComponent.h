@@ -21,17 +21,17 @@ public:
 protected:
 
 	UPROPERTY(EditAnywhere, Category = "Ability")
-	TArray<AAbility*> Abilities;
+	TArray<UAbilityData*> Abilities;
 
 	UPROPERTY(VisibleAnywhere, Category = "Ability")
-	AAbility* FirstSlot;
+	UAbilityData* FirstSlot = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Ability")
-	AAbility* SecondSlot;
+	UAbilityData* SecondSlot = nullptr;
 
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-	AAbility* GetRandomAbility();
+	UAbilityData* GetRandomAbility();
 	
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -42,10 +42,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-	void SetFirstSlot(AAbility* Ability);
+	void SetFirstSlot(UAbilityData* Ability);
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-	void SetSecondSlot(AAbility* Ability);
+	void SetSecondSlot(UAbilityData* Ability);
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void AddRandomAbility();

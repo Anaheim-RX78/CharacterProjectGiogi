@@ -37,8 +37,7 @@ void ALuckyBlock::Tick(float DeltaTime)
 void ALuckyBlock::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UAbilityComponent* AbilityComponent = OtherActor->GetComponentByClass<UAbilityComponent>();
-	if (AbilityComponent)
+	if (UAbilityComponent* AbilityComponent = OtherActor->GetComponentByClass<UAbilityComponent>())
 	{
 		AbilityComponent->AddRandomAbility();
 		Destroy();
