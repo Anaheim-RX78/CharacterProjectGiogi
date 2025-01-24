@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilityComponent.h"
 #include "Inventory.h"
 #include "GameFramework/Character.h"
 #include "DropperGameInstance.h"
@@ -23,21 +24,35 @@ public:
 	APinko();
 
 protected:
+	
 	UPROPERTY(VisibleAnywhere)
 	int ItemIndex;
 
+	UPROPERTY(EditAnywhere, Category = Ability)
+	UAbilityComponent* Abilities;
+
+	
+	UPROPERTY(VisibleAnywhere)
+	bool isDead;
+	
+	
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float WalkSpeed = 500.0f;
+	float WalkSpeed = 400.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float RunSpeed = 1000.0f;
+	float RunSpeed = 800.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float MovementSpeed = 100.0f;
+	float MovementSpeedMultiplier = 1.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float JumpForce = 1000.0f;
 
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	bool PrevFallingState;
+
+
+	
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	UCameraComponent* Camera;
 
@@ -62,8 +77,8 @@ public:
 
 	UFUNCTION()
 	void DisplayCoins();
-		
 
+	
 	UFUNCTION()
 	void JumpyDumpty();
 
@@ -75,12 +90,16 @@ public:
 
 	UFUNCTION()
 	void SetLookInput(const FVector2D& LookInput);
+	
 
 	UFUNCTION()
 	void SelectItem(bool nextItem);
 
 	UFUNCTION()
 	void Interact();
+
+	UFUNCTION()
+	void CheckIsDead();
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

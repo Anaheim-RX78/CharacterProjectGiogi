@@ -4,7 +4,7 @@
 #include "Pinko.h"
 
 
-
+#pragma region Construct
 
 // Sets default values
 APinko::APinko()
@@ -22,9 +22,15 @@ APinko::APinko()
 
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
 
+	Abilities = CreateDefaultSubobject<UAbilityComponent>(TEXT("Abilities"));
+
 	Interactor = CreateDefaultSubobject<UInteractor>(TEXT("InteractorComponent"));
 	Interactor->SetupAttachment(Camera, USpringArmComponent::SocketName);
 }
+
+#pragma endregion
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# pragma region BeginFunction
 
 // Called when the game starts or when spawned
 void APinko::BeginPlay()
@@ -36,21 +42,40 @@ void APinko::BeginPlay()
 
 	if (DropperInstance)
 	{
-		DropperInstance->MaxDepth = FMath::RandRange(0.0f, 1000.0f);
+		DropperInstance->CurrentMaxDepth = FMath::RandRange(0.0f, 1000.0f);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
 	}
-	
 }
+
+#pragma endregion
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma region TickFunction
 
 // Called every frame
 void APinko::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (GetMovementComponent()->IsFalling())
+	{
+		MovementSpeedMultiplier += DeltaTime / 30;
+		GetMovementComponent()->Velocity.Z = GetMovementComponent()->Velocity.Z * MovementSpeedMultiplier;
+		PrevFallingState = true;
+	}
+	else
+	{
+		MovementSpeedMultiplier = 1.0f;
+		CheckIsDead();
+		PrevFallingState = false;
+	}
 }
+
+#pragma endregion
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma region InizializeInput
 
 // Called to bind functionality to input
 void APinko::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -59,19 +84,24 @@ void APinko::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+#pragma endregion
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma region MovementFunctions
 
+// Jump calling the Movement Component Jump Function
 void APinko::JumpyDumpty()
 {
 	Jump();
 }
 
+// Move Relative to the Camera Forward and Right Vector
 void APinko::SetMovementInput(const FVector2D& MovementInput)
 {
-	AddMovementInput(GetActorRightVector(), MovementInput.X);
-	AddMovementInput(GetActorForwardVector(), MovementInput.Y);
+	AddMovementInput(Camera->GetRightVector(), MovementInput.X);
+	AddMovementInput(Camera->GetForwardVector(), MovementInput.Y);
 }
 
+// Sprint Changing the Walk Speed Of The Movement Component
 void APinko::Sprinting(bool Sprinting)
 {
 	if (Sprinting)
@@ -84,19 +114,21 @@ void APinko::Sprinting(bool Sprinting)
 	}
 }
 
+// Rotate The Camera
 void APinko::SetLookInput(const FVector2D& LookInput)
 {
 	AddControllerPitchInput(LookInput.Y);
 	AddControllerYawInput(LookInput.X);
 }
 
-/////////////////////////////////////////////////////////////////////////////
+#pragma endregion
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void APinko::DisplayCoins()
 {
 	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();
 	if (DropperInstance)
 	{
-		int TotalCoins = DropperInstance->CoinScore;
+		int TotalCoins = DropperInstance->CurrentCoinScore;
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("Total Coins: {0}"), {TotalCoins}));
 	}
 	else
@@ -104,6 +136,7 @@ void APinko::DisplayCoins()
 		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
 	}
 }
+
 
 inline void APinko::SelectItem(bool nextItem)
 {
@@ -119,7 +152,27 @@ inline void APinko::SelectItem(bool nextItem)
 	Inventory->DropItem(ItemIndex, 1, GetActorLocation());
 }
 
+
 void APinko::Interact()
 {
 	Interactor->Interact();
 }
+
+
+
+void APinko::CheckIsDead()
+{
+	if (GetMovementComponent()->IsFalling() == false && PrevFallingState == true)
+	{
+		FHitResult HitResult;
+
+		// if the cast fail then isDead = true
+		/*	
+ 		if (!Cast<void>(HitResult.GetActor()))
+		{
+			isDead = true;
+		}
+		*/
+	}
+}
+

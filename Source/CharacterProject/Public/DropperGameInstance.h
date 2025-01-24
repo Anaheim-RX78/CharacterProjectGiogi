@@ -16,22 +16,53 @@ class CHARACTERPROJECT_API UDropperGameInstance : public UGameInstance
 
 public:
 
+#pragma region ScoreCurrentInfo
+
+// here we create the variables to maintain the current score
+
 	UPROPERTY(EditAnywhere, Category = Score)
-	int CoinScore = 0;
+	int CurrentStarScore = 0;
+
+	UPROPERTY(EditAnywhere, Category = Score)
+	int CurrentCoinScore = 0;
 	
 	UPROPERTY(EditAnywhere, Category = Score)
-	float MaxDepth = 0;
+	float CurrentMaxDepth = 0;
 
 	UPROPERTY(EditAnywhere, Category = Score)
-	int Attempts = 0;
+	int CurrentAttempts = 0;
 
+	// The level identifier for checking if the opened level is the same
 	UPROPERTY(EditAnywhere, Category = Level)
 	FString CurrentLevelIdentifier = "Level_01";
 
+#pragma endregion
+#pragma region ScorePerLevelInfo
+
+// here we create the TMaps where we save the score info with the level name reference
+	
+	UPROPERTY(VisibleAnywhere, Category = Score)
+	TMap<FString, int> StarScores;
+
+	UPROPERTY(VisibleAnywhere, Category = Score)
+	TMap<FString, int> CoinScores;
+
+	UPROPERTY(VisibleAnywhere, Category = Score)
+	TMap<FString, float> MaxDepth;
+
+	UPROPERTY(VisibleAnywhere, Category = Score)
+	TMap<FString, int> Attempts;
+
+#pragma endregion
+
 public:
 
+	// When a new level is opened this should be called to refresh the current score infos
 	UFUNCTION(BlueprintCallable)
 	void OnLevelLoaded(FString LevelIdentifier);
-	
+
+	// Save every Current Score to the reference of the Level
+	UFUNCTION(BlueprintCallable)
+	void SaveScore(FString LevelIdentifier);
 };
 

@@ -13,7 +13,7 @@ void ACoinToScore::OnInteract(FInteractorPayload Payload)
 	{
 		UInventory* Inventory = Cast<APinko>(Payload.Interactor)->Inventory;
 		Inventory->AddItem(this, CoinValue);
-		DropperInstance->CoinScore = DropperInstance->CoinScore + CoinValue;
+		DropperInstance->CurrentCoinScore = DropperInstance->CurrentCoinScore + CoinValue;
 		Cast<APinko>(Payload.Interactor)->DisplayCoins();
 		Destroy();
 	}
