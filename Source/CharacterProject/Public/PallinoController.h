@@ -48,6 +48,12 @@ protected:
 	void Jump(const FInputActionValue& Value);
 
 	UFUNCTION()
-	void SelectInput(const FInputActionValue& Value);
+	void Interact(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void UseAbility(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void SwitchAbility(const FInputActionValue& Value);
 	
 };

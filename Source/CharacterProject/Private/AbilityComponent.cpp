@@ -41,6 +41,7 @@ void UAbilityComponent::SetFirstSlot(UAbilityData* Ability)
 	if (Ability != nullptr)
 	{
 		FirstSlot = Ability;
+		CallOnChanges();
 	}
 }
 
@@ -49,6 +50,7 @@ void UAbilityComponent::SetSecondSlot(UAbilityData* Ability)
 	if (Ability != nullptr)
 	{
 		SecondSlot = Ability;
+		CallOnChanges();
 	}
 }
 
@@ -80,20 +82,113 @@ UAbilityData* UAbilityComponent::GetRandomAbility()
 	return nullptr;
 }
 
+void UAbilityComponent::CallOnChanges()
+{
+	if (FirstSlot != nullptr && SecondSlot != nullptr)
+	{
+		FString FirstPrettyName = FirstSlot->PrettyName;
+		FString FirstDescription = FirstSlot->Description;
+		UTexture2D* FirstImage = FirstSlot->Image;
+		TSubclassOf<AAbility> FirstAbility = FirstSlot->Ability;
+	
+		FString SecondPrettyName = SecondSlot->PrettyName;
+		FString SecondDescription = SecondSlot->Description;
+		UTexture2D* SecondImage = SecondSlot->Image;
+		TSubclassOf<AAbility> SecondAbility = SecondSlot->Ability;
+		
+		FAbilitySlotsPayload Payload
+		{
+			FirstPrettyName,
+			FirstDescription,
+			FirstImage,
+			FirstAbility,
+			SecondPrettyName,
+			SecondDescription,
+			SecondImage,
+			SecondAbility
+		};
+		
+		OnAbilitiesChange.Broadcast(Payload);
+		
+	}
+	else if (FirstSlot == nullptr && SecondSlot != nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("SecondSlot: {0}"), {1}));
+
+	}
+	else if (SecondSlot == nullptr && FirstSlot != nullptr)
+	{
+		FString FirstPrettyName = FirstSlot->PrettyName;
+		FString FirstDescription = FirstSlot->Description;
+		UTexture2D* FirstImage = FirstSlot->Image;
+		TSubclassOf<AAbility> FirstAbility = FirstSlot->Ability;
+	
+		FString SecondPrettyName = "Empty";
+		FString SecondDescription = "Null";
+		UTexture2D* SecondImage = EmptySlot;
+		TSubclassOf<AAbility> SecondAbility = nullptr;
+		
+		FAbilitySlotsPayload Payload
+		{
+			FirstPrettyName,
+			FirstDescription,
+			FirstImage,
+			FirstAbility,
+			SecondPrettyName,
+			SecondDescription,
+			SecondImage,
+			SecondAbility
+		};
+		
+		OnAbilitiesChange.Broadcast(Payload);
+		
+	}
+	else
+	{
+		FString FirstPrettyName = "Empty";
+		FString FirstDescription = "Null";
+		UTexture2D* FirstImage = EmptySlot;
+		TSubclassOf<AAbility> FirstAbility = nullptr;
+	
+		FString SecondPrettyName = "Empty";
+		FString SecondDescription = "Null";
+		UTexture2D* SecondImage = EmptySlot;
+		TSubclassOf<AAbility> SecondAbility = nullptr;
+		
+		FAbilitySlotsPayload Payload
+		{
+			FirstPrettyName,
+			FirstDescription,
+			FirstImage,
+			FirstAbility,
+			SecondPrettyName,
+			SecondDescription,
+			SecondImage,
+			SecondAbility
+		};
+		
+		OnAbilitiesChange.Broadcast(Payload);
+	}
+}
+
 void UAbilityComponent::SwitchSlots()
 {
 	if (FirstSlot != nullptr && SecondSlot != nullptr)
 	{
 		UAbilityData* Ability = FirstSlot;
-		FirstSlot = SecondSlot;
-		SecondSlot = Ability;
+		SetFirstSlot(SecondSlot);
+		SetSecondSlot(Ability);
 	}
 }
 
 void UAbilityComponent::UseAbility()
 {
-	//GetWorld()->SpawnActor<AAbility>(FirstSlot->Ability, FVector<> = 0, FRotator::ZeroRotator)->OwnerCharacter = GetOwner();
-	SwitchSlots();
-	SecondSlot = nullptr;
+	if (FirstSlot != nullptr)
+	{
+		//GetWorld()->SpawnActor<AAbility>(FirstSlot->Ability, FVector<> = 0, FRotator::ZeroRotator)->OwnerCharacter = GetOwner();
+		FirstSlot = SecondSlot;
+		SecondSlot = nullptr;
+		CallOnChanges();
+	}
 }
 

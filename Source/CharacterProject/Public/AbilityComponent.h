@@ -8,6 +8,39 @@
 #include "Components/ActorComponent.h"
 #include "AbilityComponent.generated.h"
 
+USTRUCT(BlueprintType)
+struct FAbilitySlotsPayload
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly)
+	FString FirstPrettyName;
+
+	UPROPERTY(BlueprintReadOnly)
+	FString FirstDescription;
+
+	UPROPERTY(BlueprintReadOnly)
+	UTexture2D* FirstImage;
+
+	UPROPERTY(BlueprintReadOnly, Category = Item)
+	TSubclassOf<AAbility> FirstAbility;
+
+
+	UPROPERTY(BlueprintReadOnly)
+	FString SecondPrettyName;
+
+	UPROPERTY(BlueprintReadOnly)
+	FString SecondDescription;
+
+	UPROPERTY(BlueprintReadOnly)
+	UTexture2D* SecondImage;
+
+	UPROPERTY(BlueprintReadOnly, Category = Item)
+	TSubclassOf<AAbility> SecondAbility;
+	
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilitiesChangeHandler, FAbilitySlotsPayload, Payload);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CHARACTERPROJECT_API UAbilityComponent : public UActorComponent
@@ -19,6 +52,10 @@ public:
 	UAbilityComponent();
 
 protected:
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	UTexture2D* EmptySlot;
+	
 
 	UPROPERTY(EditAnywhere, Category = "Ability")
 	TArray<UAbilityData*> Abilities;
@@ -32,6 +69,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	UAbilityData* GetRandomAbility();
+
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	void CallOnChanges();
 	
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -40,7 +80,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
+	UPROPERTY(BlueprintAssignable)
+	FOnAbilitiesChangeHandler OnAbilitiesChange;
+	
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void SetFirstSlot(UAbilityData* Ability);
 

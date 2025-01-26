@@ -78,6 +78,9 @@ public:
 	UFUNCTION()
 	void DisplayCoins();
 
+	UFUNCTION()
+	void CheckIsDead();
+
 	
 	UFUNCTION()
 	void JumpyDumpty();
@@ -99,7 +102,10 @@ public:
 	void Interact();
 
 	UFUNCTION()
-	void CheckIsDead();
+	void useAbility();
+
+	UFUNCTION()
+	void SwitchAbility();
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

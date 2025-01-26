@@ -75,7 +75,7 @@ void APinko::Tick(float DeltaTime)
 
 #pragma endregion
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma region InizializeInput
+#pragma region InizializeInputs
 
 // Called to bind functionality to input
 void APinko::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -123,21 +123,9 @@ void APinko::SetLookInput(const FVector2D& LookInput)
 
 #pragma endregion
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void APinko::DisplayCoins()
-{
-	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();
-	if (DropperInstance)
-	{
-		int TotalCoins = DropperInstance->CurrentCoinScore;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("Total Coins: {0}"), {TotalCoins}));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
-	}
-}
+#pragma region InputsFunctions
 
-
+// Select Next Item in The Inventory, Not Needed for the Dropper. Lesson Exercise
 inline void APinko::SelectItem(bool nextItem)
 {
 	if (nextItem && ItemIndex < Inventory->Items.Num() - 1)
@@ -152,12 +140,36 @@ inline void APinko::SelectItem(bool nextItem)
 	Inventory->DropItem(ItemIndex, 1, GetActorLocation());
 }
 
-
 void APinko::Interact()
 {
 	Interactor->Interact();
 }
 
+void APinko::useAbility()
+{
+	Abilities->UseAbility();
+}
+
+void APinko::SwitchAbility()
+{
+	Abilities->SwitchSlots();
+}
+
+#pragma endregion
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void APinko::DisplayCoins()
+{
+	if (UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>())
+	{
+		int TotalCoins = DropperInstance->CurrentCoinScore;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("Total Coins: {0}"), {TotalCoins}));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
+	}
+}
 
 
 void APinko::CheckIsDead()
@@ -166,8 +178,8 @@ void APinko::CheckIsDead()
 	{
 		FHitResult HitResult;
 
-		// if the cast fail then isDead = true
-		/*	
+		// try to cast to a safe land actor, if failed dead = true
+		/*
  		if (!Cast<void>(HitResult.GetActor()))
 		{
 			isDead = true;
