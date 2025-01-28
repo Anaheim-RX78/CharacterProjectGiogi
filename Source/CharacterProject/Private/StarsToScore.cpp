@@ -1,20 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CoinToScore.h"
-
+#include "StarsToScore.h"
 
 // Sets default values
-ACoinToScore::ACoinToScore()
+AStarsToScore::AStarsToScore()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // Called when the game starts or when spawned
-void ACoinToScore::BeginPlay()
+void AStarsToScore::BeginPlay()
 {
 	Super::BeginPlay();
 	
@@ -22,14 +21,13 @@ void ACoinToScore::BeginPlay()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void ACoinToScore::PickUp(APinko* Character)
+void AStarsToScore::PickUp(APinko* Character)
 {
 	
 	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();
 	if (DropperInstance)
 	{
-		DropperInstance->AddCoins(CoinValue);
-		Character->DisplayCoins();
+		DropperInstance->CurrentStarScore +=
 		Destroy();
 	}
 	else
@@ -41,7 +39,7 @@ void ACoinToScore::PickUp(APinko* Character)
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // Called every frame
-void ACoinToScore::Tick(float DeltaTime)
+void AStarsToScore::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

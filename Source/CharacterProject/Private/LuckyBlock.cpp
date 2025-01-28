@@ -40,6 +40,7 @@ void ALuckyBlock::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	if (UAbilityComponent* AbilityComponent = OtherActor->GetComponentByClass<UAbilityComponent>())
 	{
 		AbilityComponent->AddRandomAbility();
+		UGameplayStatics::PlaySound2D(GetWorld(), PickupSound);
 		Destroy();
 	}
 }

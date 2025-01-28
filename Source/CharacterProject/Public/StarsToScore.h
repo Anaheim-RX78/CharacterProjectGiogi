@@ -4,24 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "CollectableItem.h"
-#include "GameFramework/Actor.h"
-#include "Components/CapsuleComponent.h"
-#include "CoinToScore.generated.h"
+#include "StarsToScore.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
-class CHARACTERPROJECT_API ACoinToScore : public ACollectableItem
+class CHARACTERPROJECT_API AStarsToScore : public ACollectableItem
 {
 	GENERATED_BODY()
-	
+
 public:
 	
 	// Sets default values for this actor's properties
-	ACoinToScore();
-
-protected:
-
-	UPROPERTY(EditAnywhere, Category = Settings)
-	int CoinValue = 1;
+	AStarsToScore();
 
 protected:
 	// Called when the game starts or when spawned

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Ability.h"
+#include "AbilityData.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/ActorComponent.h"
 #include "AbilityComponent.generated.h"
@@ -52,6 +54,22 @@ public:
 	UAbilityComponent();
 
 protected:
+
+#pragma region Sounds
+	
+	UPROPERTY(EditAnywhere, Category = Sound)
+	USoundBase* ObtainedAbilitySound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	USoundBase* SwitchAbilitySound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	USoundBase* UseAbilitySound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	USoundBase* AbilityFullSound;
+
+#pragma endregion
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 	UTexture2D* EmptySlot;

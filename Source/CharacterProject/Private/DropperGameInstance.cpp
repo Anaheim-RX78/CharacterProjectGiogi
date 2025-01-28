@@ -18,7 +18,6 @@ void UDropperGameInstance::OnLevelLoaded(FString LevelIdentifier)
 		// if a new level is opened refresh every current Score Info
 		CurrentAttempts = 0;
 		CurrentMaxDepth = 0;
-		CurrentCoinScore = 0;
 		CurrentStarScore = 0;
 	}
 }
@@ -29,7 +28,16 @@ void UDropperGameInstance::SaveScore(FString LevelIdentifier)
 {
 	Attempts[LevelIdentifier] = CurrentAttempts;
 	MaxDepth[LevelIdentifier] = CurrentMaxDepth;
-	CoinScores[LevelIdentifier] = CurrentCoinScore;
 	StarScores[LevelIdentifier] = CurrentStarScore;
 }
 #pragma endregion
+
+void UDropperGameInstance::AddCoins(int Amount)
+{
+	CoinScore = CoinScore + Amount;
+	if (CoinScore > 100)
+	{
+		CoinScore = (100 - CoinScore) * -1;
+		OnMaxCoinReached();
+	}
+}

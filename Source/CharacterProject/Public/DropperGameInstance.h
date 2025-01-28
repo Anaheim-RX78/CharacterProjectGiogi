@@ -24,7 +24,7 @@ public:
 	int CurrentStarScore = 0;
 
 	UPROPERTY(EditAnywhere, Category = Score)
-	int CurrentCoinScore = 0;
+	int CoinScore = 0;
 	
 	UPROPERTY(EditAnywhere, Category = Score)
 	float CurrentMaxDepth = 0;
@@ -45,9 +45,6 @@ public:
 	TMap<FString, int> StarScores;
 
 	UPROPERTY(VisibleAnywhere, Category = Score)
-	TMap<FString, int> CoinScores;
-
-	UPROPERTY(VisibleAnywhere, Category = Score)
 	TMap<FString, float> MaxDepth;
 
 	UPROPERTY(VisibleAnywhere, Category = Score)
@@ -64,5 +61,12 @@ public:
 	// Save every Current Score to the reference of the Level
 	UFUNCTION(BlueprintCallable)
 	void SaveScore(FString LevelIdentifier);
+
+	UFUNCTION(BlueprintCallable)
+	void AddCoins(int Amount);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnMaxCoinReached();
+	
 };
 

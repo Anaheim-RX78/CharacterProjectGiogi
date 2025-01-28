@@ -3,9 +3,6 @@
 
 #include "AbilityComponent.h"
 
-#include "AbilityData.h"
-#include "Pinko.h"
-
 
 // Sets default values for this component's properties
 UAbilityComponent::UAbilityComponent()
@@ -61,14 +58,18 @@ void UAbilityComponent::AddRandomAbility()
 	if (!FirstSlot)
 	{
 		SetFirstSlot(Ability);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("FirstSlot: {0}"), {Ability->GetName()}));
+		UGameplayStatics::PlaySound2D(GetWorld(), ObtainedAbilitySound);
+		return;
 	}
-	else if (!SecondSlot)
+
+	if (!SecondSlot)
 	{
 		SetSecondSlot(Ability);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("SecondSlot: {0}"), {Ability->GetName()}));
-
+		UGameplayStatics::PlaySound2D(GetWorld(), ObtainedAbilitySound);
+		return;
 	}
+
+	UGameplayStatics::PlaySound2D(GetWorld(), AbilityFullSound);
 }
 
 UAbilityData* UAbilityComponent::GetRandomAbility()
@@ -175,9 +176,14 @@ void UAbilityComponent::SwitchSlots()
 {
 	if (FirstSlot != nullptr && SecondSlot != nullptr)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), SwitchAbilitySound);
 		UAbilityData* Ability = FirstSlot;
 		SetFirstSlot(SecondSlot);
 		SetSecondSlot(Ability);
+	}
+	else
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), AbilityFullSound);
 	}
 }
 
@@ -186,9 +192,14 @@ void UAbilityComponent::UseAbility()
 	if (FirstSlot != nullptr)
 	{
 		//GetWorld()->SpawnActor<AAbility>(FirstSlot->Ability, FVector<> = 0, FRotator::ZeroRotator)->OwnerCharacter = GetOwner();
+		UGameplayStatics::PlaySound2D(GetWorld(), UseAbilitySound);
 		FirstSlot = SecondSlot;
 		SecondSlot = nullptr;
 		CallOnChanges();
+	}
+	else
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), AbilityFullSound);
 	}
 }
 
