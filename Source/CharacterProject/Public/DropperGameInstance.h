@@ -32,6 +32,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Score)
 	int CurrentAttempts = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CheckPoint)
+	FVector SpawnLocation;
+
 	// The level identifier for checking if the opened level is the same
 	UPROPERTY(EditAnywhere, Category = Level)
 	FString CurrentLevelIdentifier = "Level_01";

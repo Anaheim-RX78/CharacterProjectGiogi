@@ -19,6 +19,7 @@ void UDropperGameInstance::OnLevelLoaded(FString LevelIdentifier)
 		CurrentAttempts = 0;
 		CurrentMaxDepth = 0;
 		CurrentStarScore = 0;
+		SpawnLocation = FVector::ZeroVector;
 	}
 }
 #pragma endregion

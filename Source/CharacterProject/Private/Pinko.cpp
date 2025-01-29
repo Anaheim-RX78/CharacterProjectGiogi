@@ -121,8 +121,8 @@ void APinko::JumpyDumpty()
 // Move Relative to the Camera Forward and Right Vector
 void APinko::SetMovementInput(const FVector2D& MovementInput)
 {
-	AddMovementInput(Camera->GetRightVector(), MovementInput.X);
-	AddMovementInput(Camera->GetForwardVector() - GetActorForwardVector()  * (MovementInput.Y * -1), MovementInput.Y);
+	AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::Y), MovementInput.X);
+	AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::X), MovementInput.Y);
 }
 
 // Sprint Changing the Walk Speed Of The Movement Component
@@ -201,6 +201,8 @@ void APinko::CheckIsDead()
 	if (PrevFallingState == true)
 	{
 		FHitResult HitResult;
+
+		Die();
 
 		UGameplayStatics::PlaySound2D(GetWorld(), SplatSound);
 		// try to cast to a safe land actor, if failed call Die Function

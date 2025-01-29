@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InventoryItemData.h"
 #include "Components/ActorComponent.h"
 #include "Interactable.generated.h"
 
