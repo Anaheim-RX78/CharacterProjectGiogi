@@ -3,6 +3,9 @@
 
 #include "CollectableSpawner.h"
 
+#include "CollectableItem.h"
+#include "LuckyBlock.h"
+
 // Sets default values
 ACollectableSpawner::ACollectableSpawner()
 {
@@ -27,7 +30,7 @@ void ACollectableSpawner::BeginPlay()
 void ACollectableSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 
 void ACollectableSpawner::SpawnActor()
@@ -35,6 +38,23 @@ void ACollectableSpawner::SpawnActor()
 	if (!SpawnedActor)
 	{
 		SpawnedActor = GetWorld()->SpawnActor<AActor>(SpawnedActorClass, GetActorLocation(), FRotator::ZeroRotator);
+
+		// Cast to Actor that has the spawner variable ( An Interface would be more optimized )
+		if (ACollectableItem* MyItem = Cast<ACollectableItem>(SpawnedActor))
+		{
+			MyItem->SetSpawner(this);
+		}
+		else if (ALuckyBlock* MyBlock = Cast<ALuckyBlock>(SpawnedActor))
+		{
+			MyBlock->SetSpawner(this);
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Spawned Actor"));
+
 	}
+}
+
+void ACollectableSpawner::SetSpawnedActorNull()
+{
+	SpawnedActor = nullptr;
 }
 

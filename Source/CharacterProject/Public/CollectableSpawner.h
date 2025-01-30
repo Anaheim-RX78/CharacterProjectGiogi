@@ -38,4 +38,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnActor();
 
+	UFUNCTION(BlueprintCallable)
+	void SetSpawnedActorNull();
+
 };

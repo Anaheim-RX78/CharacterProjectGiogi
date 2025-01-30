@@ -121,8 +121,8 @@ void APinko::JumpyDumpty()
 // Move Relative to the Camera Forward and Right Vector
 void APinko::SetMovementInput(const FVector2D& MovementInput)
 {
-	AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::Y), MovementInput.X);
-	AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::X), MovementInput.Y);
+	AddMovementInput(FRotationMatrix(FRotator(0, GetControlRotation().Yaw, 0)).GetUnitAxis(EAxis::Y), MovementInput.X);
+	AddMovementInput(FRotationMatrix(FRotator(0, GetControlRotation().Yaw, 0)).GetUnitAxis(EAxis::X), MovementInput.Y);
 }
 
 // Sprint Changing the Walk Speed Of The Movement Component

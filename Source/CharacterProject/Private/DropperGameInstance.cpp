@@ -36,7 +36,7 @@ void UDropperGameInstance::SaveScore(FString LevelIdentifier)
 void UDropperGameInstance::AddCoins(int Amount)
 {
 	CoinScore = CoinScore + Amount;
-	if (CoinScore > 100)
+	if (CoinScore >= 100)
 	{
 		CoinScore = (100 - CoinScore) * -1;
 		OnMaxCoinReached();

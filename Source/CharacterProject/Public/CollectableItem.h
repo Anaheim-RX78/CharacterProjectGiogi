@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CollectableSpawner.h"
 #include "GameFramework/Actor.h"
 #include "DropperGameInstance.h"
 #include "Pinko.h"
@@ -27,6 +28,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Sound)
 	USoundBase* PickUpSound;
 
+	UPROPERTY();
+	ACollectableSpawner* MySpawner;
+
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -40,5 +44,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void SetSpawner(ACollectableSpawner* Spawner);
 
 };

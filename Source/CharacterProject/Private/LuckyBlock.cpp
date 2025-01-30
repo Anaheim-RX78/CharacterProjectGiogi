@@ -3,6 +3,8 @@
 
 #include "LuckyBlock.h"
 
+#include "CollectableSpawner.h"
+
 
 // Sets default values
 ALuckyBlock::ALuckyBlock()
@@ -41,8 +43,15 @@ void ALuckyBlock::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		AbilityComponent->AddRandomAbility();
 		UGameplayStatics::PlaySound2D(GetWorld(), PickupSound);
+		if (MySpawner)
+		{
+			MySpawner->SetSpawnedActorNull();
+		}
 		Destroy();
 	}
 }
 
-
+void ALuckyBlock::SetSpawner(ACollectableSpawner* Spawner)
+{
+	MySpawner = Spawner;
+}

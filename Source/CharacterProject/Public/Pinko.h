@@ -26,6 +26,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	UInventory* Inventory;
+
+	UPROPERTY(BlueprintReadWrite, Category = Movement)
+	float MovementSpeedMultiplier = 1.0f;
 	
 protected:
 
@@ -42,23 +45,20 @@ protected:
 #pragma region MovementVariables
 	
 	// Create and set the variables for the movement
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Movement)
 	float VelocityToFallState = -1500.0f;
 	
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Movement)
 	float WalkSpeed = 400.0f;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Movement)
 	float RunSpeed = 800.0f;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Movement)
 	float JumpForce = 1000.0f;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Movement)
 	bool PrevFallingState;
-	
-	UPROPERTY()
-	float MovementSpeedMultiplier = 1.0f;
 
 #pragma endregion
 #pragma region Components	

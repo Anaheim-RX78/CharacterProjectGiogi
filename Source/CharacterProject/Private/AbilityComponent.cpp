@@ -3,6 +3,8 @@
 
 #include "AbilityComponent.h"
 
+#include "GameFramework/Character.h"
+
 
 // Sets default values for this component's properties
 UAbilityComponent::UAbilityComponent()
@@ -191,8 +193,11 @@ void UAbilityComponent::UseAbility()
 {
 	if (FirstSlot != nullptr)
 	{
-		//GetWorld()->SpawnActor<AAbility>(FirstSlot->Ability, FVector<> = 0, FRotator::ZeroRotator)->OwnerCharacter = GetOwner();
+		AAbility* UsedAbility = GetWorld()->SpawnActor<AAbility>(FirstSlot->Ability, FVector::ZeroVector, FRotator::ZeroRotator);
+		UsedAbility->OwnerCharacter = Cast<ACharacter>(GetOwner());
+		
 		UGameplayStatics::PlaySound2D(GetWorld(), UseAbilitySound);
+		
 		FirstSlot = SecondSlot;
 		SecondSlot = nullptr;
 		CallOnChanges();

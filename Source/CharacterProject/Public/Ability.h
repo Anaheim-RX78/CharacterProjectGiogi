@@ -15,10 +15,10 @@ public:
 	// Sets default values for this actor's properties
 	AAbility();
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	ACharacter* OwnerCharacter;
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Settings")
 	class UAbilityData* AbilityData;
 
 	

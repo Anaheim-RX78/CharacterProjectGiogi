@@ -28,6 +28,10 @@ void ACollectableItem::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, 
 	if (APinko* Character = Cast<APinko>(OtherActor))
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), PickUpSound);
+		if (MySpawner)
+		{
+			MySpawner->SetSpawnedActorNull();
+		}
 		PickUp(Character);
 	}
 	
@@ -45,3 +49,7 @@ void ACollectableItem::Tick(float DeltaTime)
 
 }
 
+void ACollectableItem::SetSpawner(ACollectableSpawner* Spawner)
+{
+	MySpawner = Spawner;
+}

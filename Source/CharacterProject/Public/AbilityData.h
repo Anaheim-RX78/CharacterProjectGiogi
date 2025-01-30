@@ -17,17 +17,20 @@ class CHARACTERPROJECT_API UAbilityData : public UDataAsset
 
 public:
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FString PrettyName;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FString Description;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UTexture2D* Image;
 
-	UPROPERTY(EditAnywhere, Category = Item)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ability)
 	TSubclassOf<AAbility> Ability;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ability)
+	float Duration;
 
 	
 	
