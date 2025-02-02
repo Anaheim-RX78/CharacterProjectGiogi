@@ -6,7 +6,6 @@
 #include "AbilityComponent.h"
 #include "Inventory.h"
 #include "GameFramework/Character.h"
-#include "DropperGameInstance.h"
 #include "Interactor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -27,8 +26,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	UInventory* Inventory;
 
+	// movement multiplier for the Z velocity. Used also in the plane ability
 	UPROPERTY(BlueprintReadWrite, Category = Movement)
 	float MovementSpeedMultiplier = 1.0f;
+	
+	UPROPERTY(BlueprintReadWrite, Category = Movement)
+	bool IsInvincible = false;
 	
 protected:
 
@@ -37,10 +40,6 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere)
 	int ItemIndex;
-
-	
-	UPROPERTY(VisibleAnywhere)
-	bool isDead;
 	
 #pragma region MovementVariables
 	
@@ -57,7 +56,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Movement)
 	float JumpForce = 1000.0f;
 
-	UPROPERTY(EditAnywhere, Category = Movement)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
 	bool PrevFallingState;
 
 #pragma endregion
@@ -87,9 +86,7 @@ public:
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UFUNCTION()
-	void DisplayCoins();
+	
 
 	UFUNCTION()
 	void CheckIsDead();

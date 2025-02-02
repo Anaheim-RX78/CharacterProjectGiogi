@@ -44,7 +44,7 @@ public:
 
 	void DropItem(UInventoryItemData* Item, int Amount, FVector Location);
 
-	void DropItem(int Index, int Amount, FVector Location);
+	void DropItem(int Index, int Amount, FVector Location, bool SpawnActor);
 
 	UPROPERTY(EditAnywhere, Category = Item)
 	TArray<FInventorySlot> Items;

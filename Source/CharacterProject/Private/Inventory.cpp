@@ -40,16 +40,38 @@ void UInventory::AddItem(UInventoryItemData* Item, int Amount)
 
 void UInventory::DropItem(UInventoryItemData* Item, int Amount, FVector Location)
 {
-	for (int i = 0; i < Items.Num(); i++)
+	for (int i = 0; i < Amount; i++)
 	{
 		GetWorld()->SpawnActor<AInventoryItemActor>(Item->Item, Location, FRotator::ZeroRotator);
 	}
-	
 }
 
-void UInventory::DropItem(int Index, int Amount, FVector Location)
+void UInventory::DropItem(int Index, int Amount, FVector Location, bool SpawnActor)
 {
-	DropItem(Items[Index].ItemData, Amount, Location);
+	if (Items.Num() > 0)
+	{
+		int NewAmount = Items[Index].Amount - Amount;
+		
+		if (NewAmount <= 0)
+		{
+			if (SpawnActor)
+			{
+				int AmountToSpawn = NewAmount + Amount;
+				DropItem(Items[Index].ItemData, AmountToSpawn, Location);
+			}
+
+			Items.RemoveAt(Index);
+		}
+		else
+		{
+			Items[Index].Amount = NewAmount;
+
+			if (SpawnActor)
+			{
+				DropItem(Items[Index].ItemData, Amount, Location);
+			}
+		}
+	}
 }
 
 FInventorySlot* UInventory::GetSlotByData(UInventoryItemData* Item)

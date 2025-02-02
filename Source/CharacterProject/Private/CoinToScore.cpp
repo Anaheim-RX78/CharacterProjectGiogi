@@ -29,7 +29,6 @@ void ACoinToScore::PickUp(APinko* Character)
 	if (DropperInstance)
 	{
 		DropperInstance->AddCoins(CoinValue);
-		Character->DisplayCoins();
 		Destroy();
 	}
 	else

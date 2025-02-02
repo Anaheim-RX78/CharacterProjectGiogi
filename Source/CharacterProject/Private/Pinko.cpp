@@ -46,18 +46,6 @@ void APinko::BeginPlay()
 	
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	
-	UGameInstance* Istance = UGameplayStatics::GetGameInstance(GetWorld());
-	UDropperGameInstance* DropperInstance = Cast<UDropperGameInstance>(Istance);
-
-	if (DropperInstance)
-	{
-		DropperInstance->CurrentMaxDepth = FMath::RandRange(0.0f, 1000.0f);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
-	}
-	
 }
 
 #pragma endregion
@@ -161,19 +149,22 @@ inline void APinko::SelectItem(bool nextItem)
 		ItemIndex--;
 	}
 
-	Inventory->DropItem(ItemIndex, 1, GetActorLocation());
+	Inventory->DropItem(ItemIndex, 1, GetActorLocation(), true);
 }
 
+// Interact with the interactable get from the Interactor Component
 void APinko::Interact()
 {
 	Interactor->Interact();
 }
 
+// use the ability from the Ability Component
 void APinko::useAbility()
 {
 	Abilities->UseAbility();
 }
 
+// Switch the Abilities in the Slots from the Ability Component
 void APinko::SwitchAbility()
 {
 	Abilities->SwitchSlots();
@@ -181,42 +172,30 @@ void APinko::SwitchAbility()
 
 #pragma endregion
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma region LifeFunctions
 
-void APinko::DisplayCoins()
-{
-	if (UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>())
-	{
-		int TotalCoins = DropperInstance->CoinScore;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("Total Coins: {0}"), {TotalCoins}));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("No Game Instance found"));
-	}
-}
-
-
+// Check when on ground after falling if the land is safe otherwise die
 void APinko::CheckIsDead()
 {
 	if (PrevFallingState == true)
 	{
-		FHitResult HitResult;
-
-		Die();
+		ECollisionChannel ObjectType = GetCharacterMovement()->CurrentFloor.HitResult.Component->GetCollisionObjectType();
 
 		UGameplayStatics::PlaySound2D(GetWorld(), SplatSound);
-		// try to cast to a safe land actor, if failed call Die Function
-		/*
- 		if (!Cast<void>(HitResult.GetActor()))
+ 		if (ObjectType != ECC_Destructible)
 		{
 			Die();
 		}
-		*/
 	}
 }
 
+// Check if is invincible otherwise call the OnDeath() event
 void APinko::Die()
 {
-	isDead = true;
-	OnDeath();
+	if (IsInvincible == false)
+	{
+		OnDeath();	
+	}
 }
+
+#pragma endregion

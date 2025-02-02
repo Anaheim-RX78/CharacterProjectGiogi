@@ -27,7 +27,7 @@ void AStarsToScore::PickUp(APinko* Character)
 	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();
 	if (DropperInstance)
 	{
-		DropperInstance->CurrentStarScore +=
+		DropperInstance->AddStars(1);
 		Destroy();
 	}
 	else

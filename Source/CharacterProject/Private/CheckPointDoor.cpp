@@ -40,9 +40,16 @@ void ACheckPointDoor::Tick(float DeltaTime)
 
 bool ACheckPointDoor::CheckKey(FInteractorPayload Payload)
 {
-	if (Cast<APinko>(Payload.Interactor))
+	if (APinko* Character = Cast<APinko>(Payload.Interactor))
 	{
-		return true;
+		if (Character->Inventory->Items.Num() > 0)
+		{
+			if (Character->Inventory->Items[0].Amount > 0)
+			{
+				Character->Inventory->DropItem(0, 1, GetActorLocation(), false);
+				return true;	
+			}
+		}
 	}
 	
 	return false;
@@ -51,9 +58,13 @@ bool ACheckPointDoor::CheckKey(FInteractorPayload Payload)
 
 void ACheckPointDoor::Interacted(FInteractorPayload Payload)
 {
-	if (CheckKey(Payload))
+	if (!isOpen)
 	{
-		OpenDoor();
+		if (CheckKey(Payload))
+		{
+			isOpen = true;
+			OpenDoor();
+		}
 	}
 }
 

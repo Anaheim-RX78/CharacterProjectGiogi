@@ -3,6 +3,10 @@
 
 #include "Interactable.h"
 
+#include "Inventory.h"
+#include "InventoryItemActor.h"
+
+
 // Sets default values for this component's properties
 UInteractable::UInteractable()
 {
@@ -34,7 +38,15 @@ void UInteractable::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 void UInteractable::Interact(FInteractorPayload Payload)
 {
+	UGameplayStatics::PlaySound2D(GetWorld(), InteractionSound);
 	OnInteract.Broadcast(Payload);
+	if (Payload.Interactor)
+	{
+		if (UInventory* InteractorInventory = Payload.Interactor->FindComponentByClass<UInventory>())
+		{
+			InteractorInventory->AddItem(Cast<AInventoryItemActor>(GetOwner())->ItemData, 1);
+		}
+	}
 }
 
 FString UInteractable::GetInteractionName() const

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "InventoryItemData.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/ActorComponent.h"
 #include "Interactable.generated.h"
 
@@ -34,6 +35,9 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction)
 	FString  InteractionName;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	USoundBase* InteractionSound;
 	
 	// Called when the game starts
 	virtual void BeginPlay() override;

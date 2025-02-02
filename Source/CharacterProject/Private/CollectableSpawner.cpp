@@ -48,8 +48,6 @@ void ACollectableSpawner::SpawnActor()
 		{
 			MyBlock->SetSpawner(this);
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Spawned Actor"));
-
 	}
 }
 

@@ -8,5 +8,7 @@ void UInteractableDoor::Interact(FInteractorPayload Payload)
 {
 	checkPointDoor = Cast<ACheckPointDoor>(GetOwner());
 	checkPointDoor->Interacted(Payload);
+
+	UGameplayStatics::PlaySound2D(GetWorld(), InteractionSound);
 	
 }
