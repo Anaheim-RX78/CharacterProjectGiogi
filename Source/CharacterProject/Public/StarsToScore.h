@@ -23,7 +23,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	virtual void PickUp(APinko* Character) override;
+	virtual void PickUp(ACasurus* Character) override;
 
 public:	
 	// Called every frame

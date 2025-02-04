@@ -1,15 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Pinko.h"
-
-#include "AssetTypeActions/AssetDefinition_SoundBase.h"
+#include "Casurus.h"
 
 
 #pragma region Construct
 
 // Sets default values
-APinko::APinko()
+ACasurus::ACasurus()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -40,7 +38,7 @@ APinko::APinko()
 # pragma region BeginFunction
 
 // Called when the game starts or when spawned
-void APinko::BeginPlay()
+void ACasurus::BeginPlay()
 {
 	Super::BeginPlay();
 	
@@ -53,7 +51,7 @@ void APinko::BeginPlay()
 #pragma region TickFunction
 
 // Called every frame
-void APinko::Tick(float DeltaTime)
+void ACasurus::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -90,7 +88,7 @@ void APinko::Tick(float DeltaTime)
 #pragma region InizializeInputs
 
 // Called to bind functionality to input
-void APinko::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ACasurus::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
@@ -101,20 +99,20 @@ void APinko::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 #pragma region MovementFunctions
 
 // Jumps by calling the Movement Component Jump Function
-void APinko::JumpyDumpty()
+void ACasurus::JumpyDumpty()
 {
 	Jump();
 }
 
 // Move Relative to the Camera Forward and Right Vector
-void APinko::SetMovementInput(const FVector2D& MovementInput)
+void ACasurus::SetMovementInput(const FVector2D& MovementInput)
 {
 	AddMovementInput(FRotationMatrix(FRotator(0, GetControlRotation().Yaw, 0)).GetUnitAxis(EAxis::Y), MovementInput.X);
 	AddMovementInput(FRotationMatrix(FRotator(0, GetControlRotation().Yaw, 0)).GetUnitAxis(EAxis::X), MovementInput.Y);
 }
 
 // Sprint Changing the Walk Speed Of The Movement Component
-void APinko::Sprinting(bool Sprinting)
+void ACasurus::Sprinting(bool Sprinting)
 {
 	if (Sprinting)
 	{
@@ -127,7 +125,7 @@ void APinko::Sprinting(bool Sprinting)
 }
 
 // Rotate The Camera
-void APinko::SetLookInput(const FVector2D& LookInput)
+void ACasurus::SetLookInput(const FVector2D& LookInput)
 {
 	AddControllerPitchInput(LookInput.Y);
 	AddControllerYawInput(LookInput.X);
@@ -138,7 +136,7 @@ void APinko::SetLookInput(const FVector2D& LookInput)
 #pragma region InputsFunctions
 
 // Select Next Item in The Inventory, Not Needed for the Dropper. Lesson Exercise
-inline void APinko::SelectItem(bool nextItem)
+inline void ACasurus::SelectItem(bool nextItem)
 {
 	if (nextItem && ItemIndex < Inventory->Items.Num() - 1)
 	{
@@ -153,19 +151,19 @@ inline void APinko::SelectItem(bool nextItem)
 }
 
 // Interact with the interactable get from the Interactor Component
-void APinko::Interact()
+void ACasurus::Interact()
 {
 	Interactor->Interact();
 }
 
 // use the ability from the Ability Component
-void APinko::useAbility()
+void ACasurus::useAbility()
 {
 	Abilities->UseAbility();
 }
 
 // Switch the Abilities in the Slots from the Ability Component
-void APinko::SwitchAbility()
+void ACasurus::SwitchAbility()
 {
 	Abilities->SwitchSlots();
 }
@@ -175,7 +173,7 @@ void APinko::SwitchAbility()
 #pragma region LifeFunctions
 
 // Check when on ground after falling if the land is safe otherwise die
-void APinko::CheckIsDead()
+void ACasurus::CheckIsDead()
 {
 	if (PrevFallingState == true)
 	{
@@ -190,7 +188,7 @@ void APinko::CheckIsDead()
 }
 
 // Check if is invincible otherwise call the OnDeath() event
-void APinko::Die()
+void ACasurus::Die()
 {
 	if (IsInvincible == false)
 	{

@@ -15,6 +15,7 @@ void UInteractor::BeginPlay()
 	Super::BeginPlay();
 }
 
+// Control For Any Actor With The Interaction Channel
 void UInteractor::CheckInteractionRange()
 {
 	FHitResult HitResult;

@@ -9,27 +9,28 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMap.h"
-#include "Pinko.h"
-#include "PallinoController.generated.h"
+#include "Casurus.h"
+#include "CasurusController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CHARACTERPROJECT_API APallinoController : public APlayerController
+class CHARACTERPROJECT_API ACasurusController : public APlayerController
 {
 	GENERATED_BODY()
 
 protected:
 
 	UPROPERTY(VisibleAnywhere)
-	APinko* Pinko;
+	ACasurus* Casurus;
 	
 	UPROPERTY(EditAnywhere, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputMap* InputMap;
 
 	virtual void SetupInputComponent() override;
 
+	// on posses cast to Casurus and save it as a variable
 	virtual void OnPossess(APawn* InPawn) override;
 
 	UFUNCTION()

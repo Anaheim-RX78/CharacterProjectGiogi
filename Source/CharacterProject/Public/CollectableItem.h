@@ -6,7 +6,7 @@
 #include "CollectableSpawner.h"
 #include "GameFramework/Actor.h"
 #include "DropperGameInstance.h"
-#include "Pinko.h"
+#include "Casurus.h"
 #include "Components/CapsuleComponent.h"
 #include "CollectableItem.generated.h"
 
@@ -28,6 +28,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Sound)
 	USoundBase* PickUpSound;
 
+	// The Reference of His Spawner
 	UPROPERTY();
 	ACollectableSpawner* MySpawner;
 
@@ -38,8 +39,9 @@ protected:
 	UFUNCTION()
 	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	// Should be overrided in the Childs
 	UFUNCTION(BlueprintCallable)
-	virtual void PickUp(APinko* Character);
+	virtual void PickUp(ACasurus* Character);
 	
 public:	
 	// Called every frame

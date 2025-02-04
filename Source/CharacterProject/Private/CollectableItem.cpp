@@ -25,11 +25,12 @@ void ACollectableItem::BeginPlay()
 void ACollectableItem::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (APinko* Character = Cast<APinko>(OtherActor))
+	if (ACasurus* Character = Cast<ACasurus>(OtherActor))
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), PickUpSound);
 		if (MySpawner)
 		{
+			// Reset The Reference of This Actor In The Spawner
 			MySpawner->SetSpawnedActorNull();
 		}
 		PickUp(Character);
@@ -37,9 +38,14 @@ void ACollectableItem::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, 
 	
 }
 
-void ACollectableItem::PickUp(APinko* Character)
+void ACollectableItem::SetSpawner(ACollectableSpawner* Spawner)
 {
-	Character->Jump();
+	MySpawner = Spawner;
+}
+
+void ACollectableItem::PickUp(ACasurus* Character)
+{
+	//Do Something in the Childs
 }
 
 // Called every frame
@@ -47,9 +53,4 @@ void ACollectableItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-void ACollectableItem::SetSpawner(ACollectableSpawner* Spawner)
-{
-	MySpawner = Spawner;
 }

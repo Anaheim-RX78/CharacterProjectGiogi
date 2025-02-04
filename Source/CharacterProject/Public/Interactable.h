@@ -13,9 +13,11 @@ struct FInteractorPayload
 {
 	GENERATED_BODY()
 
+	// Pass The Interactor Reference
 	UPROPERTY(BlueprintReadOnly)
 	AActor* Interactor;
 
+	// Pass The Location Of The Interaction
 	UPROPERTY(BlueprintReadOnly)
 	FVector Location;
 	
@@ -33,6 +35,8 @@ public:
 	UInteractable();
 
 protected:
+
+	// Create The InteractionName Variable for Naming The Interactions
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction)
 	FString  InteractionName;
 

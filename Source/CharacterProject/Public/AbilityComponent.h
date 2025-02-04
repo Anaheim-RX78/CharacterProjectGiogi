@@ -15,6 +15,8 @@ struct FAbilitySlotsPayload
 {
 	GENERATED_BODY()
 
+// The Info Of The First Slot For The UI
+	
 	UPROPERTY(BlueprintReadOnly)
 	FString FirstPrettyName;
 
@@ -27,6 +29,8 @@ struct FAbilitySlotsPayload
 	UPROPERTY(BlueprintReadOnly, Category = Item)
 	TSubclassOf<AAbility> FirstAbility;
 
+
+// The Info of The Second Slot for The UI
 
 	UPROPERTY(BlueprintReadOnly)
 	FString SecondPrettyName;
@@ -75,19 +79,24 @@ protected:
 	UTexture2D* EmptySlot;
 	
 
+	// the Array Of Possible Random Abilities
 	UPROPERTY(EditAnywhere, Category = "Ability")
 	TArray<UAbilityData*> Abilities;
 
+	// Create The First Slot for the abilities
 	UPROPERTY(VisibleAnywhere, Category = "Ability")
 	UAbilityData* FirstSlot = nullptr;
 
+	// Create The Second Slot
 	UPROPERTY(VisibleAnywhere, Category = "Ability")
 	UAbilityData* SecondSlot = nullptr;
 
 
+	// Return A Random Ability In The Range Of The Possible Abilities Array
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	UAbilityData* GetRandomAbility();
 
+	// Call this Function Whenever The Slots Changes Anything. Is Needed For The Widget UI
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void CallOnChanges();
 	
@@ -98,22 +107,28 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
+
+	// Calls An Event On Changes
 	UPROPERTY(BlueprintAssignable)
 	FOnAbilitiesChangeHandler OnAbilitiesChange;
-	
+
+	// Set The First Slot With A Valid Ability
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void SetFirstSlot(UAbilityData* Ability);
 
+	// Set The Second Slot With A Valid Ability
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void SetSecondSlot(UAbilityData* Ability);
 
+	// Get A Random Ability And Add It in A Avaible Slot
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void AddRandomAbility();
 
+	// Switch the First And Second Slot In Viable
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void SwitchSlots();
 
+	// If The First Slot Is Valid Use The First Ability
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void UseAbility();
 		

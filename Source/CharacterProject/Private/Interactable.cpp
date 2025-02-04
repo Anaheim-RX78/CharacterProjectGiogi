@@ -36,6 +36,7 @@ void UInteractable::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	// ...
 }
 
+// Call The OnInteract Event and if The Interactor Owner has An Inventory Add itSelf in it
 void UInteractable::Interact(FInteractorPayload Payload)
 {
 	UGameplayStatics::PlaySound2D(GetWorld(), InteractionSound);
@@ -49,6 +50,7 @@ void UInteractable::Interact(FInteractorPayload Payload)
 	}
 }
 
+// return The Name Of the Interaction
 FString UInteractable::GetInteractionName() const
 {
 	return InteractionName;

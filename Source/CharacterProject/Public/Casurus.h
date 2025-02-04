@@ -11,17 +11,17 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Pinko.generated.h"
+#include "Casurus.generated.h"
 
 UCLASS()
-class CHARACTERPROJECT_API APinko : public ACharacter
+class CHARACTERPROJECT_API ACasurus : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	
 	// Sets default values for this character's properties
-	APinko();
+	ACasurus();
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	UInventory* Inventory;
@@ -29,7 +29,8 @@ public:
 	// movement multiplier for the Z velocity. Used also in the plane ability
 	UPROPERTY(BlueprintReadWrite, Category = Movement)
 	float MovementSpeedMultiplier = 1.0f;
-	
+
+	// if invincible does not die of landing. Used in the Ability_Invincibility
 	UPROPERTY(BlueprintReadWrite, Category = Movement)
 	bool IsInvincible = false;
 	
@@ -87,23 +88,40 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
+#pragma region LifeFunctions
 
+	// Check the Ground and call die if it's not safe
 	UFUNCTION()
 	void CheckIsDead();
 
+	// Call the Event OnDeath if not invincible
+	UFUNCTION(BlueprintCallable)
+	void Die();
+
+	// Can be implemented in the blueprint when on dead
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDeath();
 	
+#pragma endregion
+#pragma region MovementFunctions
+
+	// Call the Jump Function
 	UFUNCTION()
 	void JumpyDumpty();
 
+	// Set the movement input by using the control rotation
 	UFUNCTION()
 	void SetMovementInput(const FVector2D& MovementInput);
 
+	// Set the max velocity of the walk speed
 	UFUNCTION()
 	void Sprinting(bool Sprinting);
 
+	// set the input for the camera
 	UFUNCTION()
 	void SetLookInput(const FVector2D& LookInput);
-	
+
+#pragma endregion
 
 	UFUNCTION()
 	void SelectItem(bool nextItem);
@@ -117,11 +135,7 @@ public:
 	UFUNCTION()
 	void SwitchAbility();
 
-	UFUNCTION(BlueprintCallable)
-	void Die();
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnDeath();
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

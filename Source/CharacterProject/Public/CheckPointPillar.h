@@ -4,25 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "InventoryItemData.h"
-#include "Pinko.h"
-#include "InteractableDoor.h"
+#include "Casurus.h"
+#include "InteractablePillar.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
-#include "CheckPointDoor.generated.h"
+#include "CheckPointPillar.generated.h"
 
 UCLASS()
-class CHARACTERPROJECT_API ACheckPointDoor : public AActor
+class CHARACTERPROJECT_API ACheckPointPillar : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACheckPointDoor();
+	ACheckPointPillar();
 
 protected:
 
 	UPROPERTY(EditAnywhere, Category = Interactable)
-	UInteractableDoor* Interactable;
+	UInteractablePillar* Interactable;
 
 	UPROPERTY(EditAnywhere, Category = Interactable)
 	UBoxComponent* Box;

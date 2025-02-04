@@ -21,9 +21,11 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UBillboardComponent* billboard;
 
+	// The Reference of the Actor that is Spawned
 	UPROPERTY()
 	AActor* SpawnedActor;
 
+	// The Class of The Actor To Spawn
 	UPROPERTY(EditAnywhere, Category = "Spawner")
 	TSubclassOf<AActor> SpawnedActorClass;
 
@@ -38,6 +40,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnActor();
 
+	// Reset The Reference to Nullptr When The Actor Is Destroyed
 	UFUNCTION(BlueprintCallable)
 	void SetSpawnedActorNull();
 

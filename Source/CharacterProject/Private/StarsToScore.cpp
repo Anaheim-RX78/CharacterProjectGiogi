@@ -21,7 +21,7 @@ void AStarsToScore::BeginPlay()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void AStarsToScore::PickUp(APinko* Character)
+void AStarsToScore::PickUp(ACasurus* Character)
 {
 	
 	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();

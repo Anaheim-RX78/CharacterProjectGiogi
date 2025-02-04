@@ -4,21 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
-#include "InteractableDoor.generated.h"
+#include "InteractablePillar.generated.h"
 
 /**
  * 
  */
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class CHARACTERPROJECT_API UInteractableDoor : public UInteractable
+class CHARACTERPROJECT_API UInteractablePillar : public UInteractable
 {
 	GENERATED_BODY()
 
 protected:
 
 	UPROPERTY()
-	class ACheckPointDoor* checkPointDoor;
-	
+	class ACheckPointPillar* checkPointDoor;
+
+	// override The Interact Function
 	virtual void Interact(FInteractorPayload Payload) override;
 	
 };

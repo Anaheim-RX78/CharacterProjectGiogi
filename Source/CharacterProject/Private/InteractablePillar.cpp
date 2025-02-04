@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "InteractableDoor.h"
-#include "CheckPointDoor.h"
+#include "InteractablePillar.h"
+#include "CheckPointPillar.h"
 
-void UInteractableDoor::Interact(FInteractorPayload Payload)
+void UInteractablePillar::Interact(FInteractorPayload Payload)
 {
-	checkPointDoor = Cast<ACheckPointDoor>(GetOwner());
+	checkPointDoor = Cast<ACheckPointPillar>(GetOwner());
 	checkPointDoor->Interacted(Payload);
 
 	UGameplayStatics::PlaySound2D(GetWorld(), InteractionSound);

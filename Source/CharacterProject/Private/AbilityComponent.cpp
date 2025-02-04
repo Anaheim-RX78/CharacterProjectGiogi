@@ -35,6 +35,7 @@ void UAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// ...
 }
 
+// Set The First Slot
 void UAbilityComponent::SetFirstSlot(UAbilityData* Ability)
 {
 	if (Ability != nullptr)
@@ -44,6 +45,7 @@ void UAbilityComponent::SetFirstSlot(UAbilityData* Ability)
 	}
 }
 
+// Set The Second Slot
 void UAbilityComponent::SetSecondSlot(UAbilityData* Ability)
 {
 	if (Ability != nullptr)
@@ -53,6 +55,7 @@ void UAbilityComponent::SetSecondSlot(UAbilityData* Ability)
 	}
 }
 
+// Get A Random Ability And Then If A Slot is Empty Add to It
 void UAbilityComponent::AddRandomAbility()
 {
 	UAbilityData* Ability = GetRandomAbility();
@@ -74,6 +77,7 @@ void UAbilityComponent::AddRandomAbility()
 	UGameplayStatics::PlaySound2D(GetWorld(), AbilityFullSound);
 }
 
+// Return A Random AbilityData
 UAbilityData* UAbilityComponent::GetRandomAbility()
 {
 	if (Abilities.Num() != 0)
@@ -87,6 +91,7 @@ UAbilityData* UAbilityComponent::GetRandomAbility()
 
 void UAbilityComponent::CallOnChanges()
 {
+	// If The First & Second Slot Are Valid Then Call OnAbilitiesChange Event With Both Slots Info
 	if (FirstSlot != nullptr && SecondSlot != nullptr)
 	{
 		FString FirstPrettyName = FirstSlot->PrettyName;
@@ -114,11 +119,13 @@ void UAbilityComponent::CallOnChanges()
 		OnAbilitiesChange.Broadcast(Payload);
 		
 	}
+	// if Only The Second SLot Is Valid Nothing is Called
 	else if (FirstSlot == nullptr && SecondSlot != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Format(TEXT("SecondSlot: {0}"), {1}));
 
 	}
+	// if Only The Second Slot is Valid Call the Event With Only The Valid Info
 	else if (SecondSlot == nullptr && FirstSlot != nullptr)
 	{
 		FString FirstPrettyName = FirstSlot->PrettyName;
@@ -146,6 +153,7 @@ void UAbilityComponent::CallOnChanges()
 		OnAbilitiesChange.Broadcast(Payload);
 		
 	}
+	// If Only The First Slot Is Valid Call The Event With Only The First Slot Info
 	else
 	{
 		FString FirstPrettyName = "Empty";
@@ -174,6 +182,7 @@ void UAbilityComponent::CallOnChanges()
 	}
 }
 
+// Swtich The Abilitiies In The Two Slots if Both of Them Are Valid
 void UAbilityComponent::SwitchSlots()
 {
 	if (FirstSlot != nullptr && SecondSlot != nullptr)
@@ -189,6 +198,7 @@ void UAbilityComponent::SwitchSlots()
 	}
 }
 
+// Spawn The Actor And Then Set The First Ability As The Second And Clear The Second Slot
 void UAbilityComponent::UseAbility()
 {
 	if (FirstSlot != nullptr)

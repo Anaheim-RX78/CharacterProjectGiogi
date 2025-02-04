@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CheckPointDoor.h"
+#include "CheckPointPillar.h"
 
 
 
 // Sets default values
-ACheckPointDoor::ACheckPointDoor()
+ACheckPointPillar::ACheckPointPillar()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,27 +20,27 @@ ACheckPointDoor::ACheckPointDoor()
 	CheckPoint = CreateDefaultSubobject<USceneComponent>(TEXT("CheckPoint"));
 	CheckPoint->SetupAttachment(Root);
 
-	Interactable = CreateDefaultSubobject<UInteractableDoor>(TEXT("Interactable"));
+	Interactable = CreateDefaultSubobject<UInteractablePillar>(TEXT("Interactable"));
 
 }
 
 // Called when the game starts or when spawned
-void ACheckPointDoor::BeginPlay()
+void ACheckPointPillar::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ACheckPointDoor::Tick(float DeltaTime)
+void ACheckPointPillar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-bool ACheckPointDoor::CheckKey(FInteractorPayload Payload)
+bool ACheckPointPillar::CheckKey(FInteractorPayload Payload)
 {
-	if (APinko* Character = Cast<APinko>(Payload.Interactor))
+	if (ACasurus* Character = Cast<ACasurus>(Payload.Interactor))
 	{
 		if (Character->Inventory->Items.Num() > 0)
 		{
@@ -56,7 +56,7 @@ bool ACheckPointDoor::CheckKey(FInteractorPayload Payload)
 	
 }
 
-void ACheckPointDoor::Interacted(FInteractorPayload Payload)
+void ACheckPointPillar::Interacted(FInteractorPayload Payload)
 {
 	if (!isOpen)
 	{

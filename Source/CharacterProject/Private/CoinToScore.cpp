@@ -22,7 +22,7 @@ void ACoinToScore::BeginPlay()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void ACoinToScore::PickUp(APinko* Character)
+void ACoinToScore::PickUp(ACasurus* Character)
 {
 	
 	UDropperGameInstance* DropperInstance = GetGameInstance<UDropperGameInstance>();
